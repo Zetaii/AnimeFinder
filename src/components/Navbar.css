@@ -1,0 +1,61 @@
+nav {
+  display: flex;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  border-bottom: 1px solid white;
+}
+
+.nav-links {
+  display: flex;
+}
+
+.nav-black {
+  height: 50px;
+  width: 100%;
+  background-color: black;
+  color: white;
+  transition-timing-function: ease-in;
+  transition: all 0.5s;
+}
+.nav-logo {
+  position: absolute;
+  left: 0;
+  top: 10px; /* Adjust the top value to move the logo down */
+  height: 70px;
+  margin: 0;
+  object-fit: contain;
+  padding-left: 20px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.watchlist {
+  display: flex;
+  text-decoration: none;
+  color: white;
+  margin-left: 120px;
+  bottom: 30px;
+  padding: 8px 12px; /* Adjust padding for proper spacing */
+  cursor: pointer;
+  height: 100%;
+  width: 10%;
+  position: relative; /* Add relative positioning */
+}
+
+.watchlist::after {
+  content: ""; /* Add a pseudo-element for the underline */
+  position: absolute;
+  left: 8px;
+  bottom: 0;
+  width: 75%;
+  height: 2px; /* Set the height of the underline */
+  background-color: white; /* Set the color of the underline */
+  transform: scaleX(0); /* Initially hide the underline */
+  transform-origin: bottom; /* Set the transform origin to bottom */
+  transition: transform 0.3s ease; /* Add a transition for smooth effect */
+}
+
+.watchlist:hover::after {
+  transform: scaleX(1); /* Show the underline on hover */
+}
