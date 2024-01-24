@@ -41,7 +41,7 @@ const SearchBar = ({ onAddToPlanToWatch }) => {
         clearTimeout(timeoutId)
       }
     }
-  }, [searchTerm])
+  }, [searchTerm, timeoutId])
 
   const handleClickOutside = (e) => {
     if (inputRef.current && !inputRef.current.contains(e.target)) {
