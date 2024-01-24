@@ -33,9 +33,9 @@ nav {
 .watchlist {
   display: flex;
   text-decoration: none;
-  color: white;
+  color: rgb(255, 255, 255);
   margin-left: 120px;
-  bottom: 30px;
+  bottom: 0px;
   padding: 8px 12px; /* Adjust padding for proper spacing */
   cursor: pointer;
   height: 100%;
@@ -46,7 +46,7 @@ nav {
 .watchlist::after {
   content: ""; /* Add a pseudo-element for the underline */
   position: absolute;
-  left: 8px;
+  left: 11px;
   bottom: 0;
   width: 75%;
   height: 2px; /* Set the height of the underline */

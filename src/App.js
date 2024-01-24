@@ -3,17 +3,30 @@ import React from "react"
 import "./App.css"
 import HomeScreen from "./components/HomeScreen"
 import Watch from "./components/Watch"
-import Navbar from "./components/Navbar" // Correct import path
+import Navbar from "./components/Navbar"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 
 function App() {
+  const [planToWatchlist, setPlanToWatchlist] = React.useState([])
+
+  const addToPlanToWatch = (anime) => {
+    setPlanToWatchlist((prevList) => {
+      const newList = [...prevList, anime]
+      console.log("Plan to Watchlist after adding:", newList)
+      return newList
+    })
+  }
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/watchlist" element={<Watch />} />
+        <Route
+          path="/watchlist"
+          element={<Watch planToWatchlist={planToWatchlist} />}
+        />
       </Routes>
-      <Navbar /> {/* Render the Navbar component */}
+      <Navbar onAddToPlanToWatch={addToPlanToWatch} />
     </Router>
   )
 }

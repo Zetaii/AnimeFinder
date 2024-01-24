@@ -1,71 +1,53 @@
-// SearchBar.js
 import React, { useState, useEffect, useRef } from "react"
 import "./SearchBar.css"
 
-const SearchBar = ({ onAddToWatchlist }) => {
+const SearchBar = ({ onAddToPlanToWatch }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [suggestions, setSuggestions] = useState([])
   const [timeoutId, setTimeoutId] = useState(null)
   const inputRef = useRef(null)
 
   const handleInputChange = (e) => {
-    const input = e.target.value
-    setSearchTerm(input)
+    setSearchTerm(e.target.value)
   }
 
   useEffect(() => {
-    // Clear the previous timeout
     if (timeoutId) {
       clearTimeout(timeoutId)
     }
 
-    // Set a new timeout for 500 milliseconds
-    const newTimeoutId = setTimeout(async () => {
+    const fetchData = async () => {
       try {
         const response = await fetch(
           `https://api.jikan.moe/v4/anime?q=${searchTerm}`
         )
         const data = await response.json()
-
-        // Assuming the data structure has a property like `data` containing the search results
         const animeResults = data?.data || []
-
-        // Display only the first 5 suggestions
         setSuggestions(animeResults.slice(0, 5))
       } catch (error) {
         console.error("Error fetching data:", error)
       }
-    }, 500)
+    }
 
-    // Save the timeout ID for cleanup in the next effect
-    setTimeoutId(newTimeoutId)
+    if (searchTerm.trim() !== "") {
+      const newTimeoutId = setTimeout(fetchData, 500)
+      setTimeoutId(newTimeoutId)
 
-    // Cleanup: Clear the timeout on component unmount
-    return () => clearTimeout(newTimeoutId)
+      return () => clearTimeout(newTimeoutId)
+    } else {
+      setSuggestions([]) // Clear suggestions if searchTerm is empty
+    }
   }, [searchTerm])
 
-  const handleAddToWatchlist = (anime) => {
-    // Ensure onAddToWatchlist is a function before calling it
-    if (typeof onAddToWatchlist === "function") {
-      console.log("Adding anime to watchlist:", anime)
-      onAddToWatchlist(anime)
-      setSearchTerm("")
+  const handleClickOutside = (e) => {
+    if (inputRef.current && !inputRef.current.contains(e.target)) {
       setSuggestions([])
-    } else {
-      console.error("onAddToWatchlist is not a function")
     }
   }
 
   const handleSuggestionClick = (suggestion) => {
     setSearchTerm(suggestion.title)
     setSuggestions([])
-  }
-
-  const handleClickOutside = (e) => {
-    if (inputRef.current && !inputRef.current.contains(e.target)) {
-      // Clicked outside the input, hide suggestions
-      setSuggestions([])
-    }
   }
 
   useEffect(() => {
@@ -76,29 +58,46 @@ const SearchBar = ({ onAddToWatchlist }) => {
     }
   }, [])
 
+  const handleAddToPlanToWatch = (anime) => {
+    if (typeof onAddToPlanToWatch === "function") {
+      onAddToPlanToWatch(anime)
+      setSearchTerm("")
+      setSuggestions([])
+    } else {
+      console.error("onAddToPlanToWatch is not a function")
+    }
+  }
+
   return (
     <div className="search-bar" ref={inputRef}>
       <input
         type="text"
-        placeholder="Search..."
+        placeholder="Search for an anime..."
         value={searchTerm}
         onChange={handleInputChange}
         list="animeSuggestions"
       />
 
       {suggestions?.length > 0 && (
-        <ul>
+        <ul className="searchBarListContainer">
           {suggestions.map((anime) => (
-            <li key={anime.mal_id} onClick={() => handleSuggestionClick(anime)}>
-              {anime.titles?.find((title) => title.type === "Default")?.title ||
-                "Untitled"}
+            <li
+              className="searchBarList"
+              key={anime.mal_id}
+              onClick={() => handleSuggestionClick(anime)}
+            >
+              <div className="listTitle">
+                {anime.titles?.find((title) => title.type === "Default")
+                  ?.title || "Untitled"}
+              </div>
               <button
+                className="addToWatch"
                 onClick={(e) => {
                   e.preventDefault()
-                  handleAddToWatchlist(anime)
+                  handleAddToPlanToWatch(anime)
                 }}
               >
-                Add to Watchlist
+                Add to Plan to Watch
               </button>
             </li>
           ))}

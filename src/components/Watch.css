@@ -1,45 +1,97 @@
-h1 {
-  margin-top: 50px;
-}
-
-.container {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-gap: 20px;
-  padding: 20px;
-}
 .watch-container {
   display: flex;
   justify-content: space-around;
+  height: 150vh;
+  background: black;
 }
 
-.watching,
-.planToWatch,
-.finished {
-  width: 30%;
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
+.planToWatch {
+  display: flex;
+  color: white;
+  background: black;
+  flex-direction: column;
+  height: 100vh;
+  margin-left: 5%;
+  width: 100vw;
+  margin-top: 2%;
+}
+
+.planToWatch h1 {
+  margin-top: 60px;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: white;
+  font-weight: bold;
+}
+.animeListContainer {
+  list-style: none;
+  padding: 0;
+  width: 50%;
+  top: 100px;
+  left: 100px;
+  font-size: 1.25rem;
+  max-height: 100vh;
+  width: 35vw;
+  background: rgb(78, 78, 78);
+  border-radius: 10px;
+}
+
+.animeList {
+  background: none;
+  width: 100%;
+  display: flex;
+}
+
+.animeList:hover {
+  background: rgb(178, 178, 178);
+  border-radius: 10px;
+}
+
+.searchBar {
+  display: flex;
+  justify-content: center;
+  margin-right: 5vw;
+  margin-top: 5%;
+}
+
+.removeFromWatch {
+  display: flex;
+  font-size: 1rem;
+  padding: 5px;
+  margin-left: 300px;
+  margin-top: -25px;
   border-radius: 5px;
 }
 
-.watching h1,
-.planToWatch h1,
-.finished h1 {
-  font-size: 18px;
-  margin-bottom: 10px;
+.containerTitle {
+  font-size: 16px;
 }
 
-.watching li,
-.planToWatch li,
-.finished li {
-  list-style-type: none;
-  margin-bottom: 5px;
-  font-size: 14px;
+.anime-title {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.watching h2,
-.finished h2 {
-  font-size: 14px;
-  margin-top: 5px;
+.episode {
+  font-size: 1rem;
+}
+
+.currentEpisode {
+  font-size: 1rem;
+}
+
+.animeImage {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.number {
+  margin-top: 9px;
+  margin-left: 6px;
+  font-size: 9px;
+  color: white;
+  font-weight: bold;
 }

@@ -1,5 +1,5 @@
 const requests = {
-  fetchTrending: `/top/anime?&filter=airing&sfw`,
+  fetchTrending: `/top/anime?&filter=airing&sfw=true`,
   fetchTopRated: `/top/anime?&filter=favorite&sfw=true`,
   fetchActionAnime: `/genre/1/anime`,
   fetchComedyAnime: `/genre/4/anime`,

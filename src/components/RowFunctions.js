@@ -15,6 +15,11 @@ const useRowFunctions = () => {
   useEffect(() => {
     const rowPosters = document.getElementById("rowPosters")
 
+    if (!rowPosters) {
+      // Return early if rowPosters is null
+      return
+    }
+
     let isMouseDown = false
     let startX
     let scrollLeft
@@ -54,7 +59,7 @@ const useRowFunctions = () => {
       rowPosters.removeEventListener("mouseup", handleMouseUp)
       rowPosters.removeEventListener("mousemove", handleMouseMove)
     }
-  }, []) // Empty dependency array ensures the effect runs once during component mount
+  }, [toWatchList]) // Include toWatchList as a dependency
 
   useEffect(() => {
     async function fetchData() {
