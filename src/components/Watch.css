@@ -73,14 +73,19 @@
   width: 100%;
 }
 
-.episode {
+.CurrentEpisode {
   font-size: 1rem;
 }
 
-.currentEpisode {
+.CurrentEpisodeInput {
+  width: 10px;
+  height: 20px;
   font-size: 1rem;
+  color: white;
+  padding: 5px;
+  background: none;
+  border: 1px solid white;
 }
-
 .animeImage {
   width: 100px;
   height: 100px;
@@ -94,4 +99,25 @@
   font-size: 9px;
   color: white;
   font-weight: bold;
+}
+
+.PopUp {
+  height: 10vh;
+  margin-top: -5vh;
+  font-size: 0.5rem;
+}
+
+.PopUpEpisode {
+  margin-top: 7.5vh;
+  margin-left: -5vw;
+  margin-bottom: 1vw;
+  font-size: 1.2rem;
+  color: white;
+  font-weight: bold;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

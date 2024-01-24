@@ -3,15 +3,14 @@ import "./Watch.css"
 import SearchBar from "./SearchBar"
 
 const Watch = () => {
-  // Load the initial state from local storage or use an empty array
-
-  const initialPlanToWatchlist =
+  const [animePopupStates, setAnimePopupStates] = useState({})
+  const [planToWatchlist, setPlanToWatchlist] = useState(
     JSON.parse(localStorage.getItem("planToWatchlist")) || []
-  const [planToWatchlist, setPlanToWatchlist] = useState(initialPlanToWatchlist)
+  )
 
   const onAddToPlanToWatch = (anime) => {
     setPlanToWatchlist((prevList) => {
-      const newList = [...prevList, anime]
+      const newList = [...prevList, { ...anime, currentEpisode: 1 }]
       console.log("Plan to Watchlist after adding:", newList)
       return newList
     })
@@ -25,13 +24,25 @@ const Watch = () => {
     })
   }
 
-  // Update local storage whenever planToWatchlist changes
   useEffect(() => {
     localStorage.setItem("planToWatchlist", JSON.stringify(planToWatchlist))
   }, [planToWatchlist])
 
+  const openAnimePopup = (animeId) => {
+    setAnimePopupStates((prevStates) => ({
+      ...prevStates,
+      [animeId]: true,
+    }))
+  }
+
+  const closeAnimePopup = (animeId) => {
+    setAnimePopupStates((prevStates) => ({
+      ...prevStates,
+      [animeId]: false,
+    }))
+  }
+
   function CalculatePercentage(currentEpisode, totalEpisodes) {
-    // Ensure that both currentEpisode and totalEpisodes are valid numbers
     if (
       typeof currentEpisode !== "number" ||
       typeof totalEpisodes !== "number"
@@ -39,10 +50,8 @@ const Watch = () => {
       return "Invalid episode numbers"
     }
 
-    // Calculate the percentage completion
     const percentage = (currentEpisode / totalEpisodes) * 100
 
-    // Round the percentage to two decimal places
     const roundedPercentage = Math.round(percentage * 100) / 100
 
     return roundedPercentage + "%"
@@ -60,6 +69,7 @@ const Watch = () => {
                   <img
                     className="animeImage"
                     src={anime.images.webp.image_url}
+                    alt={`Cover for ${anime.title}`}
                   ></img>
                 </div>
                 <div className="anime-info">
@@ -67,12 +77,30 @@ const Watch = () => {
                   <div className="Totalepisode">
                     Total Episodes: {anime.episodes}
                   </div>
-                  <div className="currentEpisode">
-                    Current Episode: <div className="episodeNumber">1</div>
+                  <div className="CurrentEpisode">
+                    Current Episode:{" "}
+                    <input
+                      className="CurrentEpisodeInput"
+                      type="number"
+                      value={anime.currentEpisode}
+                      onChange={(e) =>
+                        setPlanToWatchlist((prevList) =>
+                          prevList.map((item) =>
+                            item.mal_id === anime.mal_id
+                              ? {
+                                  ...item,
+                                  currentEpisode: Number(e.target.value),
+                                }
+                              : item
+                          )
+                        )
+                      }
+                    />
                   </div>
                   <div>
                     {" "}
-                    Percent Complete: {CalculatePercentage(1, anime.episodes)}
+                    Percent Complete:{" "}
+                    {CalculatePercentage(anime.currentEpisode, anime.episodes)}
                   </div>
                   <button
                     className="removeFromWatch"
@@ -80,6 +108,25 @@ const Watch = () => {
                   >
                     Remove from Watchlist
                   </button>
+                  <div>
+                    <button
+                      onClick={() => openAnimePopup(anime.mal_id)}
+                      className="edit"
+                    >
+                      Edit
+                    </button>
+
+                    {animePopupStates[anime.mal_id] && (
+                      <div className="PopUp" id="popup">
+                        <h3 className="PopUpEpisode">
+                          Current Episode: {anime.currentEpisode}
+                        </h3>
+                        <button onClick={() => closeAnimePopup(anime.mal_id)}>
+                          Close Popup
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </li>
             ))}

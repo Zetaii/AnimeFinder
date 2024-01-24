@@ -35,7 +35,7 @@ const SearchBar = ({ onAddToPlanToWatch }) => {
 
       return () => clearTimeout(newTimeoutId)
     } else {
-      setSuggestions([]) // Clear suggestions if searchTerm is empty
+      setSuggestions([])
     }
   }, [searchTerm])
 
