@@ -30,16 +30,18 @@ const SearchBar = ({ onAddToPlanToWatch }) => {
     }
 
     if (searchTerm.trim() !== "") {
-      const newTimeoutId = setTimeout(fetchData, 500)
+      const newTimeoutId = setTimeout(fetchData, 1000)
       setTimeoutId(newTimeoutId)
     } else {
       setSuggestions([])
     }
 
     return () => {
-      clearTimeout([timeoutId])
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
     }
-  }, [searchTerm, timeoutId])
+  }, [searchTerm])
 
   const handleClickOutside = (e) => {
     if (inputRef.current && !inputRef.current.contains(e.target)) {
